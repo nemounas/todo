@@ -1,0 +1,6 @@
+.ToDoListItem {
+    display: flex;
+    min-width: 500px;
+    justify-content: space-between;
+
+}
