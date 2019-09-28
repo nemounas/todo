@@ -1,26 +1,70 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import './ToDoListItem.css'
-import TrashAndImportant from '../TrashAndImportant/TrashAndImportant'
+/* import TrashAndImportant from '../TrashAndImportant/TrashAndImportant' */
+import trashpng from '../../img/trash.png'
+import importantpng from '../../img/important.png'
 
+export default class ToDoListItem extends Component {
 
-export default class ToDoListItem extends Component{
+    state = {
+        done: false,
+        important: false
+    };
 
-    render(){
+    onlabelClick = () => {
+        this.setState(({ done })=>{
+            
+            return {
+                done: !done
+            }
+                
+        });
+    };
 
-        let { label, important = false } = this.props
+    makeImportant = () => {
+        this.setState(({ important })=>{
+            return {
+                important: !important
+            }
+            
+        })
+    }
 
-        const style = {
-            color: (important ? 'red' : 'black')
+    render() {
+
+        let classNameElement = "Item";
+
+        const { done, important } = this.state;
+
+        if (done) {
+            classNameElement += " done";
         }
-    
+
+        if (important) {
+            classNameElement += " important"
+        }
+
+        let { label, onDeleted } = this.props;
+
+
+
         return (
             <div className="ToDoListItem">
-                <div>
-                    <span style={style}>{label}</span>
+                <div className={classNameElement}>
+                    <span onClick={this.onlabelClick}>{label}</span>
                 </div>
+                {/* <div>
+                    <TrashAndImportant important={important} />
+                </div> */}
                 <div>
-                    <TrashAndImportant />
+                    <button
+                    onClick={onDeleted} 
+                    ><img src={trashpng} alt="trash" /></button>
+                    <button
+                     onClick={this.makeImportant}
+                    ><img src={importantpng} alt="important" /></button>
                 </div>
+
             </div>
         )
     }
