@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './ToDoListItem.css'
-/* import TrashAndImportant from '../TrashAndImportant/TrashAndImportant' */
 import trashpng from '../../img/trash.png'
 import importantpng from '../../img/important.png'
 
@@ -53,9 +52,6 @@ export default class ToDoListItem extends Component {
                 <div className={classNameElement}>
                     <span onClick={this.onlabelClick}>{label}</span>
                 </div>
-                {/* <div>
-                    <TrashAndImportant important={important} />
-                </div> */}
                 <div>
                     <button
                     onClick={onDeleted} 
@@ -64,6 +60,7 @@ export default class ToDoListItem extends Component {
                      onClick={this.makeImportant}
                     ><img src={importantpng} alt="important" /></button>
                 </div>
+                
 
             </div>
         )
