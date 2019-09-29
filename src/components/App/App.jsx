@@ -17,7 +17,8 @@ export default class App extends Component {
             this.CreateToDo('Play the game'),
             this.CreateToDo('Go bed')
         ],
-        term: ''
+        term: '',
+        button: 'All'
     }
 
     CreateToDo(label) {
@@ -100,10 +101,30 @@ export default class App extends Component {
         this.setState({term})
     }
 
-    search = (items, term) => {
+    onChangeButton = (button) => {
+        this.setState({button}) 
+        
+    }
 
-        if (term.length === 0) {
+    search = (items, term, button) => {
+console.log(button)
+        if (term.length === 0 && button === 'All' ) {
             return items
+        }
+
+        if(button === 'Active'){
+            return items.filter((item) => {
+                return item.done === false;
+            });
+        }
+
+        if(button === 'Done'){
+            console.log(items.filter((item) => {
+                return item.done === true;
+            }))
+           return items.filter((item) => {
+            return item.done === true;
+        }); 
         }
         return items.filter((item) => {
             return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
@@ -113,12 +134,12 @@ export default class App extends Component {
 
     render() {
 
-        const { ToDoDate, term } = this.state
+        const { ToDoDate, term, button } = this.state
 
 
-        const visiable = this.search(ToDoDate, term);
+        const visiable = this.search(ToDoDate, term, button);
 
-
+        console.log(visiable)
 
 
         const doneCount = ToDoDate
@@ -133,7 +154,7 @@ export default class App extends Component {
                 <div className="Search">
                     <SearchPanel onChangeSearch={this.onChangeSearch} />
 
-                    <Filter  />
+                    <Filter onChangeButton={this.onChangeButton} />
                 </div>
                 <ToDoList
                     todos={visiable}

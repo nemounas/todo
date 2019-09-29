@@ -18,7 +18,7 @@ export default class Filter extends Component {
             filterClassNameActive: "btn btn-outline-secondary",
             filterClassNameDone: "btn btn-info"
         })
-        this.props.Filters('Done')
+        this.props.onChangeButton('Done')
     }
 
     filterToAll = () => {
@@ -27,7 +27,7 @@ export default class Filter extends Component {
             filterClassNameActive: "btn btn-outline-secondary",
             filterClassNameDone: "btn btn-outline-secondary"
         })
-        this.props.Filters('All')
+        this.props.onChangeButton('All')
     }
 
     filterToActive = () => {
@@ -36,7 +36,7 @@ export default class Filter extends Component {
             filterClassNameActive: "btn btn-info",
             filterClassNameDone: "btn btn-outline-secondary"
         })
-        this.props.Filters('Active')
+        this.props.onChangeButton('Active')
     }
 
 
