@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './AddToDo.css'
 
-const AddToDo = ({ onAdd }) => {
-    
-    let refTextInput = React.createRef()
+export default class AddToDo extends Component {
 
-    let addElement = () => {
-        let text = refTextInput.current.value;
-        onAdd(text);
+    state = {
+        label: ''
     }
 
-    return (
-        <div>
-            <input ref={refTextInput} placeholder="add here"></input>
-            <button onClick={addElement}>Add ToDo</button>
-        </div>
-    )
+    onLabelChange = (e) => {
 
+        this.setState({
+            label: e.target.value
+        })
+    }
+    onSubmit = (e) => {
+        e.preventDefault()
+        this.props.onAdd(this.state.label)
+    }
+
+    render() {
+        return (
+            <form className="AddToDo "
+                onSubmit={this.onSubmit}
+            >
+                <input type="text"
+                    placeholder="add some todo"
+                    className="form-control"
+                    onChange={this.onLabelChange}
+                ></input>
+                <button >Add</button>
+            </form>
+        );
+    }
 }
 
-export default AddToDo;

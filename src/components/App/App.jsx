@@ -6,19 +6,31 @@ import AddToDo from '../AddToDo'
 import './App.css'
 
 export default class App extends Component {
-    maxid=100;
-    
+
+    maxid = 100;
+
     state = {
         ToDoDate: [
-            { label: 'Drink coffe', important: false, id: 1 },
-            { label: 'Build React App', important: true, id: 2 },
-            { label: 'Play the game', important: false, id: 3 },
-            { label: 'Go bed', important: false, id: 4 },
+            this.CreateToDo('Drink coffe'),
+            this.CreateToDo('Build React App'),
+            this.CreateToDo('Play the game'),
+            this.CreateToDo('Go bed')
         ]
     }
 
+    CreateToDo(label) {
+
+        let arr = {
+            label: label,
+            id: this.maxid++,
+            important: false,
+            done: false
+        }
+        return arr
+    }
+
     DeleteItem = ((id) => {
-        this.setState(({ ToDoDate }) => {
+         this.setState(({ ToDoDate }) => {
             const idx = ToDoDate.findIndex((el) => el.id === id);
             const before = ToDoDate.slice(0, idx)
             const after = ToDoDate.slice(idx + 1)
@@ -26,23 +38,58 @@ export default class App extends Component {
             return {
                 ToDoDate: newArray
             }
-        })
+        }) 
     })
 
     addItem = (text) => {
+
+        const addItem = this.CreateToDo(text)
         this.setState(({ ToDoDate }) => {
-            const addArray = [{
-                label: text,
-                important: false,
-                id: this.maxid++
-            }]
-            
-            return {
-                ToDoDate: [...ToDoDate, ...addArray]
-                
-            }
+           
+           return {
+                ToDoDate: [...ToDoDate, addItem]
+            } 
         })
     }
+
+    onDone = (id) => {
+       
+         this.setState(({ ToDoDate }) => {
+
+            const idx = ToDoDate.findIndex((el) => el.id === id);
+
+            let olditem = ToDoDate[idx]
+            let newitem = { ...olditem, done: !olditem.done }
+
+            const before = ToDoDate.slice(0, idx)
+            const after = ToDoDate.slice(idx + 1)
+            const newArray = [ ...before, newitem, ...after ]
+
+            return {
+                ToDoDate: newArray
+            }
+        }); 
+    };
+
+    onImportant = (id) => {
+
+         this.setState(({ ToDoDate }) => {
+
+            const idx = ToDoDate.findIndex((el) => el.id === id);
+
+            let olditem = ToDoDate[idx]
+            let newitem = { ...olditem, important: !olditem.important }
+
+            const before = ToDoDate.slice(0, idx)
+            const after = ToDoDate.slice(idx + 1)
+            const newArray = [ ...before, newitem, ...after ]
+
+            return {
+                ToDoDate: newArray
+            }
+        }); 
+    }
+
 
     render() {
 
@@ -53,6 +100,8 @@ export default class App extends Component {
                 <ToDoList
                     todos={this.state.ToDoDate}
                     onDeleted={this.DeleteItem}
+                    onImportant={this.onImportant}
+                    onDone={this.onDone}
                 />
                 <AddToDo onAdd={this.addItem} />
             </div>
