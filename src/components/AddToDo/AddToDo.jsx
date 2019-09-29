@@ -16,6 +16,9 @@ export default class AddToDo extends Component {
     onSubmit = (e) => {
         e.preventDefault()
         this.props.onAdd(this.state.label)
+        this.setState({
+            label: ''
+        })
     }
 
     render() {
@@ -27,8 +30,9 @@ export default class AddToDo extends Component {
                     placeholder="add some todo"
                     className="form-control"
                     onChange={this.onLabelChange}
+                    value={this.state.label}
                 ></input>
-                <button >Add</button>
+                <button className="btn btn-outline-secondary" >Add</button>
             </form>
         );
     }
