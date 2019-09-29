@@ -2,11 +2,11 @@ import React from 'react'
 import './Progress.css'
 
 
-const Progress = () => {
+const Progress = ({ doneCount, toDoCount }) => {
 
     return (
         <div>
-           1 more to do, 3 done 
+           {toDoCount} more to do, {doneCount} done
         </div>
     )
 

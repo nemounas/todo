@@ -21,8 +21,8 @@ export default class App extends Component {
     CreateToDo(label) {
 
         let arr = {
-            label: label,
             id: this.maxid++,
+            label: label,
             important: false,
             done: false
         }
@@ -90,15 +90,22 @@ export default class App extends Component {
         }); 
     }
 
-
+    
     render() {
+        
+        const { ToDoDate } = this.state
+        const doneCount = ToDoDate
+                      .filter(el=>el.done===true).length
 
+        const toDoCount = ToDoDate.length - doneCount
+                      
         return (
             <div className="app">
-                <AppHeader />
+                <AppHeader doneCount={doneCount}
+                           toDoCount={toDoCount} />
                 <SearchPanel />
                 <ToDoList
-                    todos={this.state.ToDoDate}
+                    todos={ ToDoDate }
                     onDeleted={this.DeleteItem}
                     onImportant={this.onImportant}
                     onDone={this.onDone}
