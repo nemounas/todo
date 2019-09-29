@@ -107,7 +107,7 @@ export default class App extends Component {
     }
 
     search = (items, term, button) => {
-console.log(button)
+
         if (term.length === 0 && button === 'All' ) {
             return items
         }
@@ -115,15 +115,17 @@ console.log(button)
         if(button === 'Active'){
             return items.filter((item) => {
                 return item.done === false;
+            }).filter((item) => {
+                return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
             });
         }
 
         if(button === 'Done'){
-            console.log(items.filter((item) => {
-                return item.done === true;
-            }))
+            
            return items.filter((item) => {
             return item.done === true;
+        }).filter((item) => {
+            return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
         }); 
         }
         return items.filter((item) => {
