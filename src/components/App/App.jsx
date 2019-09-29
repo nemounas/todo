@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AppHeader from '../AppHeader/AppHeader'
 import SearchPanel from '../SearchPanel/SearchPanel'
 import ToDoList from '../ToDoList/ToDoList'
+import Filter from '../Filter'
 import AddToDo from '../AddToDo'
 import './App.css'
 
@@ -15,7 +16,8 @@ export default class App extends Component {
             this.CreateToDo('Build React App'),
             this.CreateToDo('Play the game'),
             this.CreateToDo('Go bed')
-        ]
+        ],
+        term: ''
     }
 
     CreateToDo(label) {
@@ -30,7 +32,7 @@ export default class App extends Component {
     }
 
     DeleteItem = ((id) => {
-         this.setState(({ ToDoDate }) => {
+        this.setState(({ ToDoDate }) => {
             const idx = ToDoDate.findIndex((el) => el.id === id);
             const before = ToDoDate.slice(0, idx)
             const after = ToDoDate.slice(idx + 1)
@@ -38,23 +40,23 @@ export default class App extends Component {
             return {
                 ToDoDate: newArray
             }
-        }) 
+        })
     })
 
     addItem = (text) => {
 
         const addItem = this.CreateToDo(text)
         this.setState(({ ToDoDate }) => {
-           
-           return {
+
+            return {
                 ToDoDate: [...ToDoDate, addItem]
-            } 
+            }
         })
     }
 
     onDone = (id) => {
-       
-         this.setState(({ ToDoDate }) => {
+
+        this.setState(({ ToDoDate }) => {
 
             const idx = ToDoDate.findIndex((el) => el.id === id);
 
@@ -63,17 +65,17 @@ export default class App extends Component {
 
             const before = ToDoDate.slice(0, idx)
             const after = ToDoDate.slice(idx + 1)
-            const newArray = [ ...before, newitem, ...after ]
+            const newArray = [...before, newitem, ...after]
 
             return {
                 ToDoDate: newArray
             }
-        }); 
+        });
     };
 
     onImportant = (id) => {
 
-         this.setState(({ ToDoDate }) => {
+        this.setState(({ ToDoDate }) => {
 
             const idx = ToDoDate.findIndex((el) => el.id === id);
 
@@ -82,30 +84,59 @@ export default class App extends Component {
 
             const before = ToDoDate.slice(0, idx)
             const after = ToDoDate.slice(idx + 1)
-            const newArray = [ ...before, newitem, ...after ]
+            const newArray = [...before, newitem, ...after]
 
             return {
                 ToDoDate: newArray
             }
-        }); 
+        });
     }
 
-    
+    Filters = (button) => {
+
+    }
+
+    onChangeSearch = (term) => {
+        this.setState({term})
+    }
+
+    search = (items, term) => {
+
+        if (term.length === 0) {
+            return items
+        }
+        return items.filter((item) => {
+            return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
+        });
+
+    }
+
     render() {
-        
-        const { ToDoDate } = this.state
+
+        const { ToDoDate, term } = this.state
+
+
+        const visiable = this.search(ToDoDate, term);
+
+
+
+
         const doneCount = ToDoDate
-                      .filter(el=>el.done===true).length
+            .filter(el => el.done === true).length
 
         const toDoCount = ToDoDate.length - doneCount
-                      
+
         return (
             <div className="app">
                 <AppHeader doneCount={doneCount}
-                           toDoCount={toDoCount} />
-                <SearchPanel />
+                    toDoCount={toDoCount} />
+                <div className="Search">
+                    <SearchPanel onChangeSearch={this.onChangeSearch} />
+
+                    <Filter  />
+                </div>
                 <ToDoList
-                    todos={ ToDoDate }
+                    todos={visiable}
                     onDeleted={this.DeleteItem}
                     onImportant={this.onImportant}
                     onDone={this.onDone}

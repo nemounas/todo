@@ -1,18 +1,34 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './SearchPanel.css'
-import Filter from '../Filter/Filter'
 
-const SearchPanel = () => {
-    return (
-        <div className="SearchPanel">
-            <div>
-                <input placeholder="search" />
+
+export default class SearchPanel extends Component {
+    
+   state = {
+       term: ''
+   }
+
+   onChangeSearch=(e)=>{
+       const term = e.target.value
+       this.setState({ term })
+       this.props.onChangeSearch(term)
+   }
+   
+    render(){
+        return (
+            <div className="SearchPanel">
+                <div>
+                    
+                    <input 
+                    placeholder="search"
+                    value={this.state.term}
+                    onChange={this.onChangeSearch}
+                    />
+                </div>
+                
             </div>
-            <div>
-                <Filter />
-            </div>
-        </div>
-    )
+        )
+    }
+    
 }
 
-export default SearchPanel;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './ToDoListItem.css'
-import trashpng from '../../img/trash.png'
+import trashpng from '../../img/trashico.png'
 import importantpng from '../../img/important.png'
 
 export default class ToDoListItem extends Component {
