@@ -5,10 +5,6 @@ import importantpng from '../../img/important.png'
 
 export default class ToDoListItem extends Component {
 
-
-
-
-
     render() {
         let { label, onDeleted,
             onImportant, onDone,
@@ -37,8 +33,6 @@ export default class ToDoListItem extends Component {
                         onClick={onImportant}
                     ><img src={importantpng} alt="important" /></button>
                 </div>
-
-
             </div>
         )
     }

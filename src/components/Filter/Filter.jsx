@@ -1,68 +1,34 @@
 import React, { Component } from 'react'
 import './Filter.css'
 
-
 export default class Filter extends Component {
 
-
-
-    state = {
-        filterClassNameAll: "btn btn-outline-secondary",
-        filterClassNameActive: "btn btn-outline-secondary",
-        filterClassNameDone: "btn btn-outline-secondary"
-    }
-
-    filterToDone = () => {
-        this.setState({
-            filterClassNameAll: "btn btn-outline-secondary",
-            filterClassNameActive: "btn btn-outline-secondary",
-            filterClassNameDone: "btn btn-info"
-        })
-        this.props.onChangeButton('Done')
-    }
-
-    filterToAll = () => {
-        this.setState({
-            filterClassNameAll: "btn btn-info",
-            filterClassNameActive: "btn btn-outline-secondary",
-            filterClassNameDone: "btn btn-outline-secondary"
-        })
-        this.props.onChangeButton('All')
-    }
-
-    filterToActive = () => {
-        this.setState({
-            filterClassNameAll: "btn btn-outline-secondary",
-            filterClassNameActive: "btn btn-info",
-            filterClassNameDone: "btn btn-outline-secondary"
-        })
-        this.props.onChangeButton('Active')
-    }
-
+    buttons = [
+        { name: 'all', label: 'All' },
+        { name: 'active', label: 'Active' },
+        { name: 'done', label: 'Done' }
+    ]
 
     render() {
 
+        const { filter, onChangeButton } = this.props
 
+        const buttons = this.buttons.map(({ name, label }) => {
+            const isActive = filter === name
+            const clazz = isActive ? 'btn-info' : 'btn-outline-secondary'
+            return (
+                <button type='button'
+                    key={name}
+                    onClick={() => onChangeButton(name)}
+                    className={`btn ${clazz}`}>
+                    {label}
+                </button>
+            )
+        })
 
         return (
-            <div className="Filter">
-                <button
-                    className={this.state.filterClassNameAll}
-                    onClick={this.filterToAll}
-                >All
-                </button>
-
-                <button
-                    className={this.state.filterClassNameActive}
-                    onClick={this.filterToActive}
-                >Active
-                </button>
-
-                <button
-                    className={this.state.filterClassNameDone}
-                    onClick={this.filterToDone}
-                >Done
-                 </button>
+            <div className="btn-group">
+                {buttons}
             </div>
         )
     }
